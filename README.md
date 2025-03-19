@@ -12,3 +12,6 @@ To do selective responding, we're going to look at the first line of the HTTP re
 
 ### Refactoring
 When looking at the code, it's easy to notice that there's a lot of repetition going on. We can clean up the code by assigning the status line and filename first, then using those variables later. Now the if and else blocks only return the status line and filename, which is assigned to a tuple with the let statement. The resulting code is easier to maintain, because if we have to make any changes, we only have to do it in one place now. 
+
+## Commit 4 Reflection 
+In this commit, we're simulating a slow response by making the server sleep for 10 seconds before responding when we access the /sleep endpoint. Now that we have three cases, we switch from if to match. When running the application now, if we access the /sleep endpoint then the / endpoint, the / endpoint waits until /sleep has slept its full 10 seconds before responding. This happens because the server is handling requests sequentially in a single thread. This shows a major issue with single-threaded servers: if one request takes too long, it slows down all other requests, making the server inefficient under heavy traffic.
