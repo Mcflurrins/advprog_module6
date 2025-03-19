@@ -15,3 +15,6 @@ When looking at the code, it's easy to notice that there's a lot of repetition g
 
 ## Commit 4 Reflection 
 In this commit, we're simulating a slow response by making the server sleep for 10 seconds before responding when we access the /sleep endpoint. Now that we have three cases, we switch from if to match. When running the application now, if we access the /sleep endpoint then the / endpoint, the / endpoint waits until /sleep has slept its full 10 seconds before responding. This happens because the server is handling requests sequentially in a single thread. This shows a major issue with single-threaded servers: if one request takes too long, it slows down all other requests, making the server inefficient under heavy traffic.
+
+## Commit 5 Reflection 
+This commit makes the website multithreaded by introducing a thread pool, allowing multiple requests to be processed at the same time instead of sequentially. The ThreadPool struct manages a fixed number of worker threads, each waiting for jobs to be assigned through a message passing channel. When a new request comes in, it is sent as a Job to the available worker, which then executes the handle_connection function. Since multiple workers exist, requests like /sleep don't block the entire server since other threads can continue handling incoming requests while one is sleeping.
