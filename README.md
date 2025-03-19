@@ -18,3 +18,7 @@ In this commit, we're simulating a slow response by making the server sleep for 
 
 ## Commit 5 Reflection 
 This commit makes the website multithreaded by introducing a thread pool, allowing multiple requests to be processed at the same time instead of sequentially. The ThreadPool struct manages a fixed number of worker threads, each waiting for jobs to be assigned through a message passing channel. When a new request comes in, it is sent as a Job to the available worker, which then executes the handle_connection function. Since multiple workers exist, requests like /sleep don't block the entire server since other threads can continue handling incoming requests while one is sleeping.
+
+## Bonus Reflection
+![alt text](image-2.png)
+In the new build function, we check if the threadpool size is valid before creating worker threads. If the size is 0, it prints an error message and forcefully terminates the program using std::process::exit(1). Above is an example of what would happen if the provided size is set to 0. If the size is valid, build proceeds to create the worker threads just like new, initializing a message-passing channel (mpsc::channel()), wrapping the receiver in an Arc<Mutex\<T>>, and spawning worker threads that listen for incoming jobs. 
